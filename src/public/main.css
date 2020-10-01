@@ -10,16 +10,30 @@ html {
     color: white;
 }
 body {
-    padding: 20px;
+    padding-top: 50px;
+    padding-left: 670px;
+    padding-right: 670px;
+
+}
+.Form {
+    padding-left: 100px;
+    padding-right: 100px;
 }
 input {
     border: 3px solid #000000;
 }
 button {
     border: 3px solid #000000;
+    /* text-align: right; */
+    /* margin-left: 100px; */
 
 }
-
+table {
+    padding: 200px;
+}
+table.minimalistBlack > button {
+    text-align: right;
+}
 table.minimalistBlack {
     border: 3px solid #000000;
     width: 100%;

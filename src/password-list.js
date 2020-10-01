@@ -1,8 +1,13 @@
 import React, {useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import './public/main.css';
-import { deletePassword } from './actions'
+import { addPassword ,deletePassword, editPassword } from './actions'
+import zxcvbn from 'zxcvbn'
+
 function PasswordList() {
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+
   const dispatch = useDispatch()
   const passwords = useSelector((state) => state.passwords)
 
@@ -17,6 +22,13 @@ function PasswordList() {
           }}
       >
           Delete
+      </button>
+      <button
+          onClick={(e) => {
+            dispatch(editPassword(index, name, password));
+          }}
+      >
+          Edit
       </button></td>
         </tr>
     )
@@ -24,6 +36,35 @@ function PasswordList() {
   
   return (
     <div>
+      <div className="Form">
+        <strong>Password Creator!</strong>
+        <div>
+          <button
+            onClick={(e) => {
+              setPassword(generatePasswordWithDash());
+            }}
+          >
+            Generate
+          </button>
+
+        </div>
+        <div>Name:</div>
+        <input value={name} onChange={(e) => setName(e.target.value)} />
+        {/* <div>{name}</div> */}
+        <div>Password:</div>
+        <input onChange={(e) => setPassword(e.target.value)} value={password} />
+        {/* <div>{password}</div> */}
+        <div>
+          <button
+            onClick={(e) => {
+              dispatch(addPassword(name, password));
+            }}
+          >
+            Save
+          </button>
+        </div>
+      </div>
+      
       <div>Saved:</div>
       <table class="minimalistBlack">
         <thead>
@@ -40,5 +81,24 @@ function PasswordList() {
     </div>
   )
 }
-
+function generatePasswordWithDash() {
+  let char = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let password = "";
+  password += char.charAt(Math.floor(Math.random() * char.length));
+  password += char.charAt(Math.floor(Math.random() * char.length));
+  password += char.charAt(Math.floor(Math.random() * char.length));
+  password += "-";
+  password += char.charAt(Math.floor(Math.random() * char.length));
+  password += char.charAt(Math.floor(Math.random() * char.length));
+  password += char.charAt(Math.floor(Math.random() * char.length));
+  password += "-";
+  password += char.charAt(Math.floor(Math.random() * char.length));
+  password += char.charAt(Math.floor(Math.random() * char.length));
+  password += char.charAt(Math.floor(Math.random() * char.length));
+  console.log("generating password");
+  console.log(password);
+  console.log(zxcvbn(password))
+  // this.setState({ password: password });
+  return password;
+}
 export default PasswordList
